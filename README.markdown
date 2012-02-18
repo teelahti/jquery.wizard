@@ -9,6 +9,7 @@ Converts given elements to pages that may be navigated with auto-generated back/
 ## .wizard(options) ##
 
 
+
 ## .wizardBreadcrumb(options) ##
 
-Listens to published events from wizard plugin, and creats a breadcrumb.  
+Listens to published events from wizard plugin, and creates a breadcrumb accordingly.  

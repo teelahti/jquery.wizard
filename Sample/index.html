@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jquery.wizard sample page</title>
+        <link rel="stylesheet" href="css/samples.css" type="text/css" />
+    </head>
+    <body>
+    <!-- Foo form, not obligatory, wizard would work without 
+    but this is the common use -->
+    <form action="#">
+        <fieldset title="Page 1">
+            <legend>Page 1</legend>
+            <div>
+                <input type="text" name="foo" />
+            </div>
+        </fieldset>
+        
+        <fieldset title="Page 2">
+            <legend>Page 2</legend>
+            <div>
+                <input type="checkbox" id="bar" name="bar" />
+                <label for="bar">Some text</label>
+            </div>
+        </fieldset>​
+    </form>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="../jquery.wizard.js"></script>
+    <script>
+        // Simplest use
+        $("form > fieldset").wizard();
+    </body>
+</html>

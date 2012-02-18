@@ -1,0 +1,13 @@
+.wizard - page {
+    margin: 20px;
+    padding: 10px;
+    border: solid 1px#ccc;
+    border - radius: 10px;
+    width: 400px;
+}
+
+
+.wizard - buttons {
+    margin - top: 30px;
+    margin - bottom: 10px;
+}​
