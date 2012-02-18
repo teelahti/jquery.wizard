@@ -8,7 +8,7 @@
 // http://www.opensource.org/licenses/mit-license.php
 (function( $ ){
 
-  $.fn.wizard= function(options) { 
+  $.fn.wizard = function(options) { 
       /// Converts given elements to pages that may be navigated with
       /// auto-generated back/forward buttons. Publishes navigation 
       /// information for example for breadcrumb use. 
@@ -24,7 +24,7 @@
         },
         settings = $.extend( {
             // The namespace used on all data-attributes and CSS classes
-            namespace : 'wizard',
+            namespace : "wizard",
             
             texts : {
               buttonNext : "Next",
@@ -37,9 +37,8 @@
         }, options);      
       
     // TODO: Add separate jquery.wizardBreadcrumb plugin to write breadcrumb.
-    // TODO: Add support for html5 form validate and jquery.validate
-    // TODO: Add support for browser back/forward navigation
-    // TODO: Add previous/next button texts to options
+    // TODO: Add support for html5 form validate and jquery.validate (separate plugin jquery.wizard.validate)
+    // TODO: Add support for browser back/forward navigation (separate plugin jquery.wizard.browsernavigation)
     // TODO: Add option to use different button texts: text, page title, text + page title
     
     function ns(name) {
@@ -57,7 +56,7 @@
     }
       
     // Init, show only first page
-    this.hide().eq(0).show();
+    pages.hide().eq(0).show();
 
     naviClick = function(e) {
         /// Event handler for navigation back/forward clicks
