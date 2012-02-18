@@ -18,24 +18,26 @@
       
     var naviClick, 
         i = 0, 
-        wizardPageClass = "wizard-page";
+        cssClasses = { 
+            page: "-wizard-page" 
+        },
+        settings = $.extend( {
+            namespace : 'wizard'
+        }, options);      
       
-    // Create some defaults, extending them with any options that were provided
-    // var settings = $.extend( {
-    //  namespace         : 'wizard',
-    //  cssClasses: { page: "wizard-page", buttonsContainer: "wizard-buttons" }
-    //}, options);      
-      
-    // TODO: Extend with options for class etc.
-    // TODO: Add configurable namespace, also through options
     // TODO: Add separate jquery.wizardBreadcrumb plugin to write breadcrumb.
     // TODO: Add support for html5 form validate and jquery.validate
     // TODO: Add support for browser back/forward navigation
-    // TODO: Use jquery UI only if it is referenced, otherwise use plain jquery animation
-        
-      function pub(name, data) {
-          $(document).trigger("wizard" + "/" + name, data);
-      }
+    
+    function ns(name) {
+        /// Prepend configured namespace to given name. 
+        return settings.namespace + name;
+    }
+    
+    function pub(name, data) {
+        /// Publish a message to listeners. Pub name is always namespaced. 
+        $(document).trigger(ns("/" + name), data);
+    }
       
     // Init, show only first page
     this.hide().eq(0).show();
@@ -43,12 +45,13 @@
     naviClick = function(e) {
         /// Event handler for navigation back/forward clicks
         var button = $(this), 
-            navigateTo = button.data("wizard-navigate-to"),
+            navigateTo = button.data(ns("-navigate-to")),
             toRight = navigateTo === "back",
-            page = button.closest("." + wizardPageClass ),
-            next = toRight ? page.prev("fieldset") : page.next("fieldset"),
+            pageSelector = "." + ns(cssClasses.page),
+            page = button.closest(pageSelector),
+            next = toRight ? page.prev(pageSelector) : page.next(pageSelector),
             duration = 300,
-            index = page.data["wizard-page-index"],
+            index = page.data(ns("-page-index")),
             publishContext = { 
                 currentPage : index, 
                 targetPage : toRight ? index + 1 : index - 1 
@@ -61,24 +64,31 @@
         
         pub("navigating", publishContext);
         
-        // Hide current page
-        page.hide("slide", { direction: toRight ? "right" : "left" }, duration);
-        
-        // show next page after current has disappeared
-        setTimeout(function() {
-            next.show("slide", { direction: toRight ? "left" : "right" }, duration);
-        }, duration);
+        // Use a littlebit prettier navigation if jquery UI is in use
+        if($.ui) {
+            // Hide current page
+            page.hide("slide", { direction: toRight ? "right" : "left" }, duration);
+            
+            // show next page after current has disappeared
+            setTimeout(function() {
+                next.show("slide", { direction: toRight ? "left" : "right" }, duration);
+            }, duration);
+        }
+        else {
+            page.hide();
+            next.show();
+        }
     };        
       
     return this.each(function() {
 
         var $this = $(this), 
-          buttons = $("<div/>").addClass("wizard-buttons"),
+          buttons = $("<div/>").addClass(ns("-buttons")),
           buttonForward = $("<button>Forward</button>"),
-          buttonBack = $("<button>Back</button>").data("wizard-navigate-to", "back");
+          buttonBack = $("<button>Back</button>").data(ns("-navigate-to"), "back");
         
         // decorate page container
-        $this.data("wizard-page-index", i).addClass(wizardPageClass);
+        $this.data(ns("-page-index"), i).addClass(ns(cssClasses.page));
         
         buttonForward.click(naviClick);
         buttonBack.click(naviClick);
@@ -98,4 +108,3 @@
     });
   };
 })( jQuery );
-​
