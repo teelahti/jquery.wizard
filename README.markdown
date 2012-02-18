@@ -16,6 +16,7 @@ Options:
 - **texts**: buttonNext: Next button text; buttonPrevious: Previous button text
 
 Example:
+
     $("form > fieldset").wizard( { 
         namespace: "random-wizard", 
         breadcrumb: "#breadcrumb",
