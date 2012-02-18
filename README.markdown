@@ -9,12 +9,11 @@ Converts given elements to pages that may be navigated with auto-generated back/
 ## .wizard(options) ##
 
 Options: 
-- namespace: The namespace to use for all HTML5 data attributes and all CSS classes. Default is 'wizard'.
-- breadcrumb: The jQuery selector to find the breadcrumb container. Breadcrumb is automatically created inside this element at runtime. 
-- slideDuration: When jQuery UI is included, this is the duration (ms) of the left/right slide that is used in page transitions.
-- texts:
-    - buttonNext: Next button text
-    - buttonPrevious: Previous button text
+
+- **namespace**: The namespace to use for all HTML5 data attributes and all CSS classes. Default is 'wizard'.
+- **breadcrumb**: The jQuery selector to find the breadcrumb container. Breadcrumb is automatically created inside this element at runtime. 
+- **slideDuration**: When jQuery UI is included, this is the duration (ms) of the left/right slide that is used in page transitions.
+- **texts**: buttonNext: Next button text, buttonPrevious: Previous button text
 
 
 ### Generated button format ###
