@@ -29,3 +29,13 @@ Example:
 ### Generated button format ###
 
 ### Generated breadcrumb format ###
+
+When breadcrumb is used the following format HTML is inserted into given container. 
+
+    <ul>
+        <li>Title 1</li>
+        <li class="wizard-breadcrumb-active">Title 2</title>
+        <li>Title 3</li>
+    </ul>
+
+Breadcrumb titles are the ones collected from wizard page's title attributes.

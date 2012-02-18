@@ -26,6 +26,8 @@
             // The namespace used on all data-attributes and CSS classes
             namespace : "wizard",
             
+            // Selector to find breadcrumb container if one is used. 
+            // Actual breadcrumb implementation is on a separate file. 
             breadcrumb : null,
             
             texts : {
@@ -39,7 +41,6 @@
         }, options),
         doc = $(document);
               
-    // TODO: Add support for html5 form validate and jquery.validate (separate plugin jquery.wizard.validate)
     // TODO: Add support for browser back/forward navigation (separate plugin jquery.wizard.browsernavigation)
     
     // Give same settings to breadcrumb, after this it can continue 
@@ -75,6 +76,8 @@
         if(data.currentPage === data.targetPage) {
             return;
         }
+        
+        // TODO: Add support for html5 form validate and jquery.validate (separate plugin jquery.wizard.validate)
         
         // If page and next are given use them (internal use), if not 
         // find them (external use through breadcrumb navi or similar)
