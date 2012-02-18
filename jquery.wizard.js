@@ -40,7 +40,6 @@
               
     // TODO: Add support for html5 form validate and jquery.validate (separate plugin jquery.wizard.validate)
     // TODO: Add support for browser back/forward navigation (separate plugin jquery.wizard.browsernavigation)
-    // TODO: Add option to use different button texts: text, page title, text + page title
     
     // Give same settings to breadcrumb, after this it can continue 
     // autonomously.
