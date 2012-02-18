@@ -18,12 +18,18 @@
       
     var naviClick, 
         i = 0, 
+        pages = this,
         cssClasses = { 
             page: "-wizard-page" 
         },
         settings = $.extend( {
             // The namespace used on all data-attributes and CSS classes
             namespace : 'wizard',
+            
+            texts : {
+              buttonNext : "Next",
+              buttonPrevious : "Previous"
+            },
             
             // When animating pages, duration of slide out and slide in 
             // animation
@@ -33,6 +39,8 @@
     // TODO: Add separate jquery.wizardBreadcrumb plugin to write breadcrumb.
     // TODO: Add support for html5 form validate and jquery.validate
     // TODO: Add support for browser back/forward navigation
+    // TODO: Add previous/next button texts to options
+    // TODO: Add option to use different button texts: text, page title, text + page title
     
     function ns(name) {
         /// Prepend configured namespace to given name. 
@@ -42,6 +50,10 @@
     function pub(name, data) {
         /// Publish a message to listeners. Pub name is always namespaced. 
         $(document).trigger(ns("/" + name), data);
+    }
+    
+    function button(text) {
+        return $("<button/>").html(text);
     }
       
     // Init, show only first page
@@ -88,8 +100,8 @@
 
         var $this = $(this), 
           buttons = $("<div/>").addClass(ns("-buttons")),
-          buttonForward = $("<button>Forward</button>"),
-          buttonBack = $("<button>Back</button>").data(ns("-navigate-to"), "back");
+          buttonForward = button(settings.texts.buttonNext),
+          buttonBack = button(settings.texts.buttonPrevious).data(ns("-navigate-to"), "back");
         
         // decorate page container
         $this.data(ns("-page-index"), i).addClass(ns(cssClasses.page));
@@ -102,7 +114,9 @@
             buttons.append(buttonBack);
         }
         
-        buttons.append(buttonForward);
+        if(i < (pages.size() - 1)) {
+            buttons.append(buttonForward);
+        }
         
         $this.append(buttons);
         
