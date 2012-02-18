@@ -11,7 +11,8 @@
 
     var settings, 
         root,
-        targetData;
+        targetData,
+        doc = $(document);
 
     function pageCreated(event, data) {
         var li = $("<li>").data(targetData, data.index).html(data.title);
@@ -22,9 +23,16 @@
         
         root.append(li);
         
-        // Navigate
+        // Navigate when breadcrumb is clicked
         li.click(function(e) {
+            // Create navigating context
+            var cssClass = ns("-active"),
+                ctx = { 
+                    currentPage: root.find("li." + cssClass).data(targetData), 
+                    targetPage : li.data(targetData) 
+            };
             
+            doc.trigger(ns("/navigate"), ctx);
         });
     }
     
@@ -45,8 +53,6 @@
     }    
 
     $.fn.wizard.initializeBreadcrumb = function(options) {
-        var doc = $(document);
-        
         settings = options;
       
         root = $("<ul>");
@@ -58,7 +64,7 @@
         doc.on(ns("/pagecreated"), pageCreated);
         
         // subscribe to wizard navigating event
-        doc.on(ns("/navigating"), navigating);
+        doc.on(ns("/navigated"), navigating);
     };
         
 })( jQuery );

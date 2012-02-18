@@ -16,9 +16,9 @@
       /// plugin, but that project is not actively maintained and it 
       /// is too complex to use for my own taste.
       
-    var naviClick, 
-        i = 0, 
+    var i = 0, 
         pages = this,
+        indexData = "-page-index",
         cssClasses = { 
             page: "-wizard-page" 
         },
@@ -36,7 +36,8 @@
             // When animating pages, duration of slide out and slide in 
             // animation
             slideDuration : 300
-        }, options);
+        }, options),
+        doc = $(document);
               
     // TODO: Add support for html5 form validate and jquery.validate (separate plugin jquery.wizard.validate)
     // TODO: Add support for browser back/forward navigation (separate plugin jquery.wizard.browsernavigation)
@@ -54,36 +55,33 @@
     
     function pub(name, data) {
         /// Publish a message to listeners. Pub name is always namespaced. 
-        $(document).trigger(ns("/" + name), data);
+        doc.trigger(ns("/" + name), data);
     }
     
     function button(text) {
         return $("<button/>").html(text);
     }
-            
-    // Init, show only first page
-    pages.hide().eq(0).show();
-
-    naviClick = function(e) {
-        /// Event handler for navigation back/forward clicks
-        var button = $(this), 
-            navigateTo = button.data(ns("-navigate-to")),
-            toRight = navigateTo === "back",
-            pageSelector = "." + ns(cssClasses.page),
-            page = button.closest(pageSelector),
-            next = toRight ? page.prev(pageSelector) : page.next(pageSelector),
-            index = page.data(ns("-page-index")),
-            publishContext = { 
-                currentPage : index, 
-                targetPage : toRight ? index - 1 : index + 1 
-            };
-
-        e.preventDefault();
+    
+    function indexFilter(index) {
+        return function() {
+            return $(this).data(ns(indexData)) === index;
+        };
+    }
+    
+    function navigate(event, data, page, next) {
+        var toRight = data.currentPage < data.targetPage;
         
-        // Publish with some context
-        publishContext.currentPage = index;
+        // Do not navigate if page is the same
+        if(data.currentPage === data.targetPage) {
+            return;
+        }
         
-        pub("navigating", publishContext);
+        // If page and next are given use them (internal use), if not 
+        // find them (external use through breadcrumb navi or similar)
+        if(!page) {
+            page = pages.filter(indexFilter(data.currentPage)).eq(0);
+            next = pages.filter(indexFilter(data.targetPage)).eq(0);
+        }
         
         // Use a littlebit prettier navigation if jquery UI is in use
         if($.ui) {
@@ -98,9 +96,39 @@
         else {
             page.hide();
             next.show();
-        }
-    };        
-      
+        }  
+        
+        pub("navigated", data);
+    }
+
+    function naviClick(e) {
+        /// Event handler for navigation back/forward clicks
+        var button = $(this), 
+            navigateTo = button.data(ns("-navigate-to")),
+            toRight = navigateTo === "back",
+            pageSelector = "." + ns(cssClasses.page),
+            page = button.closest(pageSelector),
+            next = toRight ? page.prev(pageSelector) : page.next(pageSelector),
+            index = page.data(ns(indexData)),
+            publishContext = { 
+                currentPage : index, 
+                targetPage : toRight ? index - 1 : index + 1 
+            };
+
+        e.preventDefault();
+        
+        // Publish with some context
+        publishContext.currentPage = index;
+        
+        navigate(null, publishContext, page, next);
+    }
+    
+    // Init, show only first page
+    pages.hide().eq(0).show();
+    
+    // Listen navigate events from outside
+    doc.on(ns("/navigate"), navigate);
+    
     return this.each(function() {
 
         var $this = $(this), 
@@ -109,7 +137,7 @@
           buttonBack = button(settings.texts.buttonPrevious).data(ns("-navigate-to"), "back");
         
         // decorate page container
-        $this.data(ns("-page-index"), i).addClass(ns(cssClasses.page));
+        $this.data(ns(indexData), i).addClass(ns(cssClasses.page));
         
         buttonForward.click(naviClick);
         buttonBack.click(naviClick);
