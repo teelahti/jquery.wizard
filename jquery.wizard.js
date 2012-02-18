@@ -26,6 +26,8 @@
             // The namespace used on all data-attributes and CSS classes
             namespace : "wizard",
             
+            breadcrumb : null,
+            
             texts : {
               buttonNext : "Next",
               buttonPrevious : "Previous"
@@ -34,12 +36,17 @@
             // When animating pages, duration of slide out and slide in 
             // animation
             slideDuration : 300
-        }, options);      
-      
-    // TODO: Add separate jquery.wizardBreadcrumb plugin to write breadcrumb.
+        }, options);
+              
     // TODO: Add support for html5 form validate and jquery.validate (separate plugin jquery.wizard.validate)
     // TODO: Add support for browser back/forward navigation (separate plugin jquery.wizard.browsernavigation)
     // TODO: Add option to use different button texts: text, page title, text + page title
+    
+    // Give same settings to breadcrumb, after this it can continue 
+    // autonomously.
+    if($.fn.wizard.initializeBreadcrumb) {
+        $.fn.wizard.initializeBreadcrumb(settings);   
+    }
     
     function ns(name) {
         /// Prepend configured namespace to given name. 
@@ -54,7 +61,7 @@
     function button(text) {
         return $("<button/>").html(text);
     }
-      
+            
     // Init, show only first page
     pages.hide().eq(0).show();
 
@@ -69,7 +76,7 @@
             index = page.data(ns("-page-index")),
             publishContext = { 
                 currentPage : index, 
-                targetPage : toRight ? index + 1 : index - 1 
+                targetPage : toRight ? index - 1 : index + 1 
             };
 
         e.preventDefault();

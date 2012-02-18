@@ -5,6 +5,10 @@
         <link rel="stylesheet" href="css/samples.css" type="text/css" />
     </head>
     <body>
+    
+    <!-- Show breadcrumb here -->
+    <div id="breadcrumb"></div>
+    
     <!-- Foo form, not obligatory, wizard would work without 
     but this is the common use -->
     <form action="#">
@@ -37,9 +41,9 @@
     </form>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="../jquery.wizard.js"></script>
+    <script src="../jquery.wizard.breadcrumb.js"></script>
     <script>
-        // Simplest use
-        $("form > fieldset").wizard();
+        $("form > fieldset").wizard({ breadcrumb: "#breadcrumb" } );
     </script>
     </body>
 </html>
