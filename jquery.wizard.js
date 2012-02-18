@@ -22,7 +22,12 @@
             page: "-wizard-page" 
         },
         settings = $.extend( {
-            namespace : 'wizard'
+            // The namespace used on all data-attributes and CSS classes
+            namespace : 'wizard',
+            
+            // When animating pages, duration of slide out and slide in 
+            // animation
+            slideDuration : 300
         }, options);      
       
     // TODO: Add separate jquery.wizardBreadcrumb plugin to write breadcrumb.
@@ -50,7 +55,6 @@
             pageSelector = "." + ns(cssClasses.page),
             page = button.closest(pageSelector),
             next = toRight ? page.prev(pageSelector) : page.next(pageSelector),
-            duration = 300,
             index = page.data(ns("-page-index")),
             publishContext = { 
                 currentPage : index, 
@@ -67,12 +71,12 @@
         // Use a littlebit prettier navigation if jquery UI is in use
         if($.ui) {
             // Hide current page
-            page.hide("slide", { direction: toRight ? "right" : "left" }, duration);
+            page.hide("slide", { direction: toRight ? "right" : "left" }, settings.slideDuration);
             
             // show next page after current has disappeared
             setTimeout(function() {
-                next.show("slide", { direction: toRight ? "left" : "right" }, duration);
-            }, duration);
+                next.show("slide", { direction: toRight ? "left" : "right" }, settings.slideDuration);
+            }, settings.slideduration);
         }
         else {
             page.hide();
