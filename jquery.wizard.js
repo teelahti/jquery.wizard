@@ -40,13 +40,15 @@
             slideDuration : 300
         }, options),
         doc = $(document);
-              
-    // TODO: Add support for browser back/forward navigation (separate plugin jquery.wizard.browsernavigation)
     
-    // Give same settings to breadcrumb, after this it can continue 
+    // Give same settings to breadcrumb and history, after this they can continue 
     // autonomously.
     if($.fn.wizard.initializeBreadcrumb) {
         $.fn.wizard.initializeBreadcrumb(settings);   
+    }
+    
+    if($.fn.wizard.initializeHistory) {
+        $.fn.wizard.initializeHistory(settings);   
     }
     
     function ns(name) {
