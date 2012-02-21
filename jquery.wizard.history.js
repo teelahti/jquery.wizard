@@ -18,11 +18,13 @@
         doc = $(document);
 
     function navigating(event, data) {
-        // TODO: Find title
-        History.pushState(data, "State 1", "?state=1"); 
+        var page = data.targetPage + 1;
+        // TODO: Find real title
+        History.pushState(data, "Page " + page, "?page=" + page); 
     }
     
     function historyPop() {
+        console.log("HistoryPop");
         // Note: We are using History.getState() instead of event.state
         var state = History.getState(); 
         
