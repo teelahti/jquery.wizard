@@ -20,7 +20,7 @@
         pages = this,
         indexData = "-page-index",
         cssClasses = { 
-            page: "-wizard-page" 
+            page: "-page" 
         },
         settings = $.extend( {
             // The namespace used on all data-attributes and CSS classes
@@ -70,7 +70,9 @@
     }
     
     function navigate(event, data, page, next) {
-        var toRight = data.currentPage < data.targetPage;
+        var toRight = data.currentPage < data.targetPage,
+            animationOut, 
+            animationIn;
         
         // Do not navigate if page is the same
         if(data.currentPage === data.targetPage) {
@@ -88,13 +90,13 @@
         
         // Use a littlebit prettier navigation if jquery UI is in use
         if($.ui) {
-            // Hide current page
-            page.hide("slide", { direction: toRight ? "right" : "left" }, settings.slideDuration);
+            animationOut = { direction: toRight ? "left" : "right" };
+            animationIn = { direction: toRight ? "right" : "left" };
             
-            // show next page after current has disappeared
-            setTimeout(function() {
-                next.show("slide", { direction: toRight ? "left" : "right" }, settings.slideDuration);
-            }, settings.slideduration);
+            // Hide current page, show new after hide
+            page.hide("slide", animationOut, settings.slideDuration, function() {
+                next.show("slide", animationIn, settings.slideDuration);
+            });
         }
         else {
             page.hide();
