@@ -6,6 +6,29 @@
     width: 400px;
 }
 
+.wizard-page-hidden {
+    visibility: hidden;
+    margin: -420px;
+    position: absolute;
+    
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	transition: all 0.5s ease-out;
+}
+
+.wizard-page-visible {
+    visibility: visible;
+    margin: 20px;
+    position: static;
+    
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+	transition: all 0.5s ease-in;
+}
 
 .wizard-buttons {
     margin-top: 30px;

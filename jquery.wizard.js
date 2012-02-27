@@ -20,7 +20,9 @@
         pages = this,
         indexData = "-page-index",
         cssClasses = { 
-            page: "-page" 
+            page: "-page",
+            hiddenPage: "-page-hidden",
+            visiblePage: "-page-visible"
         },
         settings = $.extend( {
             // The namespace used on all data-attributes and CSS classes
@@ -33,11 +35,7 @@
             texts : {
               buttonNext : "Next",
               buttonPrevious : "Previous"
-            },
-            
-            // When animating pages, duration of slide out and slide in 
-            // animation
-            slideDuration : 300
+            }
         }, options),
         doc = $(document);
     
@@ -71,10 +69,9 @@
         };
     }
     
-    function navigate(event, data, page, next) {
-        var toRight = data.currentPage < data.targetPage,
-            animationOut, 
-            animationIn;
+    function navigate(event, data, page, next) { 
+        var visibleCssClass = ns(cssClasses.visiblePage),
+            hiddenCssClass = ns(cssClasses.hiddenPage);
         
         // Do not navigate if page is the same
         if(data.currentPage === data.targetPage) {
@@ -90,20 +87,8 @@
             next = pages.filter(indexFilter(data.targetPage)).eq(0);
         }
         
-        // Use a littlebit prettier navigation if jquery UI is in use
-        if($.ui) {
-            animationOut = { direction: toRight ? "left" : "right" };
-            animationIn = { direction: toRight ? "right" : "left" };
-            
-            // Hide current page, show new after hide
-            page.hide("slide", animationOut, settings.slideDuration, function() {
-                next.show("slide", animationIn, settings.slideDuration);
-            });
-        }
-        else {
-            page.hide();
-            next.show();
-        }  
+        page.removeClass(visibleCssClass).addClass(hiddenCssClass);
+        next.removeClass(hiddenCssClass).addClass(visibleCssClass);
         
         pub("navigated", data);
     }
@@ -131,7 +116,7 @@
     }
     
     // Init, show only first page
-    pages.hide().eq(0).show();
+    pages.addClass(ns(cssClasses.hiddenPage)).eq(0).addClass(ns(cssClasses.visiblePage));
     
     // Listen navigate events from outside
     doc.on(ns("/navigate"), navigate);

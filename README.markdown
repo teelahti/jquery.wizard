@@ -13,7 +13,6 @@ Options:
 
 - **namespace**: The namespace to use for all HTML5 data attributes and all CSS classes. Default is 'wizard'.
 - **breadcrumb**: The jQuery selector to find the breadcrumb container. Breadcrumb is automatically created inside this element at runtime. 
-- **slideDuration**: When jQuery UI is included, this is the duration (ms) of the left/right slide that is used in page transitions.
 - **texts**: buttonNext: Next button text; buttonPrevious: Previous button text
 
 Example:
@@ -40,3 +39,7 @@ When breadcrumb is used the following format HTML is inserted into given contain
     </ul>
 
 Breadcrumb titles are the ones collected from wizard page's title attributes.
+
+### Sample CSS styles ###
+
+Wizard adds CSS classes for all pages and their states. Names with default namespace are: wizard-page, wizard-page-hidden, wizard-page-visible. These styles can be used to create CSS3 animations for page changes. See samples/css/samples.css for very basic slide out animation.
